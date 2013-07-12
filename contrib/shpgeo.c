@@ -74,10 +74,6 @@
 #include <string.h>
 #include "shapefil.h"
 
-#ifndef NAN
-#include "my_nan.h"
-#endif
-
 #include "shpgeo.h"
 
 
