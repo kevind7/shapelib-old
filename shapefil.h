@@ -2,7 +2,7 @@
 #define SHAPEFILE_H_INCLUDED
 
 /******************************************************************************
- * $Id: shapefil.h,v 1.52 2011-12-11 22:26:46 fwarmerdam Exp $
+ * $Id: shapefil.h 24607 2012-06-24 19:18:48Z rouault $
  *
  * Project:  Shapelib
  * Purpose:  Primary include file for Shapelib.
@@ -144,6 +144,10 @@
 
 #ifdef USE_DBMALLOC
 #include <dbmalloc.h>
+#endif
+
+#ifdef USE_CPL
+#include "cpl_conv.h"
 #endif
 
 #ifdef __cplusplus
@@ -497,6 +501,32 @@ SHPSearchDiskTreeEx( SHPTreeDiskHandle hDiskTree,
 
 int SHPAPI_CALL
     SHPWriteTreeLL(SHPTree *hTree, const char *pszFilename, SAHooks *psHooks );
+
+
+/* -------------------------------------------------------------------- */
+/*      SBN Search API                                                  */
+/* -------------------------------------------------------------------- */
+
+typedef struct SBNSearchInfo* SBNSearchHandle;
+
+SBNSearchHandle SHPAPI_CALL
+    SBNOpenDiskTree( const char* pszSBNFilename,
+                 SAHooks *psHooks );
+
+void SHPAPI_CALL
+    SBNCloseDiskTree( SBNSearchHandle hSBN );
+
+int SHPAPI_CALL1(*)
+SBNSearchDiskTree( SBNSearchHandle hSBN,
+                   double *padfBoundsMin, double *padfBoundsMax,
+                   int *pnShapeCount );
+
+int SHPAPI_CALL1(*)
+SBNSearchDiskTreeInteger( SBNSearchHandle hSBN,
+                          int bMinX, int bMinY, int bMaxX, int bMaxY,
+                          int *pnShapeCount );
+
+void SHPAPI_CALL SBNSearchFreeIds( int* panShapeId );
 
 /************************************************************************/
 /*                             DBF Support.                             */
